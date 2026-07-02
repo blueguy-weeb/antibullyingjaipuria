@@ -40,7 +40,7 @@ function ReportPage() {
       _class_teacher: parsed.data.class_teacher,
       _class_name: parsed.data.class_name,
       _problem: parsed.data.problem,
-      _witness: parsed.data.witness || null,
+      _witness: parsed.data.witness || undefined,
     });
     setSubmitting(false);
     if (error || !data) { toast.error(error?.message ?? "Failed to submit"); return; }
