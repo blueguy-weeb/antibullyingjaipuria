@@ -12,7 +12,7 @@ import { LogOut, Reply, Ban, CheckCircle2, MessageSquare, Palette, Trash2 } from
 
 type Incident = {
   id: string; tracking_code: string; name: string; class_teacher: string; class_name: string;
-  problem: string; witness: string | null; reply: string | null;
+  problem: string; witness: string | null; witness_photo_path: string | null; reply: string | null;
   replied_at: string | null; is_blocked: boolean; created_at: string;
 };
 type Settings = { id: number; title: string; description: string; primary_color: string; accent_color: string };
@@ -164,6 +164,7 @@ function AdminPage() {
                 <div className="mt-4 space-y-2 rounded-lg bg-muted p-4 text-sm">
                   <div><span className="font-medium">Problem:</span> <span className="whitespace-pre-wrap">{i.problem}</span></div>
                   {i.witness && <div><span className="font-medium">Witness:</span> {i.witness}</div>}
+                  {i.witness_photo_path && <EvidencePhoto path={i.witness_photo_path} />}
                 </div>
 
                 {i.reply ? (
@@ -225,6 +226,26 @@ function AdminPage() {
           </TabsContent>
         </Tabs>
       </main>
+    </div>
+  );
+}
+
+function EvidencePhoto({ path }: { path: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    supabase.storage.from("evidence").createSignedUrl(path, 3600).then(({ data }) => {
+      if (!cancelled) setUrl(data?.signedUrl ?? null);
+    });
+    return () => { cancelled = true; };
+  }, [path]);
+  if (!url) return <div className="text-xs text-muted-foreground">Loading photo…</div>;
+  return (
+    <div>
+      <div className="font-medium">Witness photo:</div>
+      <a href={url} target="_blank" rel="noreferrer">
+        <img src={url} alt="Witness evidence" className="mt-2 max-h-64 rounded-lg border border-border" />
+      </a>
     </div>
   );
 }

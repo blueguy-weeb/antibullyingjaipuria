@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ArrowLeft, Send, CheckCircle2, Copy } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, Copy, ImagePlus, X } from "lucide-react";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -26,6 +26,23 @@ function ReportPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<{ code: string } | null>(null);
   const [form, setForm] = useState({ name: "", class_teacher: "", class_name: "", problem: "", witness: "" });
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+
+  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) return;
+    if (!file.type.startsWith("image/")) { toast.error("Please choose an image file"); return; }
+    if (file.size > 10 * 1024 * 1024) { toast.error("Image must be under 10 MB"); return; }
+    setPhoto(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  }
+
+  function removePhoto() {
+    setPhoto(null);
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
+    setPhotoPreview(null);
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,17 +52,32 @@ function ReportPage() {
       return;
     }
     setSubmitting(true);
+
+    let photoPath: string | undefined;
+    if (photo) {
+      const ext = photo.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("evidence").upload(path, photo, {
+        contentType: photo.type,
+        upsert: false,
+      });
+      if (upErr) { setSubmitting(false); toast.error(`Photo upload failed: ${upErr.message}`); return; }
+      photoPath = path;
+    }
+
     const { data, error } = await supabase.rpc("submit_incident", {
       _name: parsed.data.name,
       _class_teacher: parsed.data.class_teacher,
       _class_name: parsed.data.class_name,
       _problem: parsed.data.problem,
       _witness: parsed.data.witness || undefined,
+      _witness_photo_path: photoPath,
     });
     setSubmitting(false);
     if (error || !data) { toast.error(error?.message ?? "Failed to submit"); return; }
     setSubmitted({ code: data as string });
   }
+
 
   if (submitted) {
     return (
@@ -97,6 +129,27 @@ function ReportPage() {
           </Field>
           <Field label="Witness" hint="Optional — anyone who saw what happened.">
             <Input value={form.witness} onChange={(e) => setForm({ ...form, witness: e.target.value })} maxLength={500} />
+          </Field>
+          <Field label="Witness Photo" hint="Optional — attach a photo as evidence (max 10 MB). Only admins can view it.">
+            {photoPreview ? (
+              <div className="relative inline-block">
+                <img src={photoPreview} alt="Witness evidence preview" className="max-h-48 rounded-lg border border-border" />
+                <button
+                  type="button"
+                  onClick={removePhoto}
+                  className="absolute -right-2 -top-2 rounded-full bg-destructive p-1 text-destructive-foreground shadow"
+                  aria-label="Remove photo"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-muted/40 px-4 py-6 text-sm text-muted-foreground hover:bg-muted">
+                <ImagePlus className="h-5 w-5" />
+                <span>Click to upload a photo</span>
+                <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+              </label>
+            )}
           </Field>
           <Button type="submit" size="lg" disabled={submitting} className="w-full">
             <Send className="mr-2 h-4 w-4" />
