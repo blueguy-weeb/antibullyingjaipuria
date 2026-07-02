@@ -229,3 +229,23 @@ function AdminPage() {
     </div>
   );
 }
+
+function EvidencePhoto({ path }: { path: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    supabase.storage.from("evidence").createSignedUrl(path, 3600).then(({ data }) => {
+      if (!cancelled) setUrl(data?.signedUrl ?? null);
+    });
+    return () => { cancelled = true; };
+  }, [path]);
+  if (!url) return <div className="text-xs text-muted-foreground">Loading photo…</div>;
+  return (
+    <div>
+      <div className="font-medium">Witness photo:</div>
+      <a href={url} target="_blank" rel="noreferrer">
+        <img src={url} alt="Witness evidence" className="mt-2 max-h-64 rounded-lg border border-border" />
+      </a>
+    </div>
+  );
+}
