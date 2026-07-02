@@ -109,7 +109,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      claim_admin: { Args: never; Returns: boolean }
       get_incident_by_code: {
         Args: { _code: string }
         Returns: {
@@ -124,13 +123,6 @@ export type Database = {
           tracking_code: string
           witness: string
         }[]
-      }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
       }
     }
     Enums: {
