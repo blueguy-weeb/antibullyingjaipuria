@@ -98,6 +98,40 @@ function RootComponent() {
     });
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
+
+  useEffect(() => {
+    const prevent = (e: Event) => e.preventDefault();
+    document.addEventListener("contextmenu", prevent);
+    document.addEventListener("dragstart", prevent);
+    const onKey = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && (k === "s" || k === "p" || k === "u")) e.preventDefault();
+      if (k === "printscreen") {
+        navigator.clipboard?.writeText("").catch(() => {});
+        document.body.classList.add("privacy-blur");
+        setTimeout(() => document.body.classList.remove("privacy-blur"), 1500);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const onBlur = () => document.body.classList.add("privacy-blur");
+    const onFocus = () => document.body.classList.remove("privacy-blur");
+    const onVis = () => {
+      if (document.visibilityState === "hidden") document.body.classList.add("privacy-blur");
+      else document.body.classList.remove("privacy-blur");
+    };
+    window.addEventListener("blur", onBlur);
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      document.removeEventListener("contextmenu", prevent);
+      document.removeEventListener("dragstart", prevent);
+      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("blur", onBlur);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
