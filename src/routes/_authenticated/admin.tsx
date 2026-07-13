@@ -15,7 +15,7 @@ type Incident = {
   problem: string; witness: string | null; witness_photo_path: string | null; reply: string | null;
   replied_at: string | null; is_blocked: boolean; created_at: string;
 };
-type Settings = { id: number; title: string; description: string; primary_color: string; accent_color: string };
+
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
