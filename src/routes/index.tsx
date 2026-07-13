@@ -70,9 +70,9 @@ function Index() {
               <Search className="h-5 w-5" style={{ color: primary }} />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold" style={{ color: accent }}>Check for an Our Teams Reply</h2>
+              <h2 className="text-lg font-semibold" style={{ color: accent }}>Check for updates</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Enter the tracking code you received after submitting your report.
+                Enter your code below to view replies from the school team.
               </p>
               <form
                 onSubmit={(e) => {
@@ -85,7 +85,7 @@ function Index() {
                 <Input
                   value={code}
                   onChange={(e) => setCode(e.target.value.toUpperCase())}
-                  placeholder="e.g. A1B2C3D4E5"
+                  placeholder="E.G. A1B2C3D4E5"
                   className="font-mono uppercase tracking-wider"
                   maxLength={20}
                 />
@@ -98,11 +98,10 @@ function Index() {
         </section>
 
         {/* Info cards */}
-        <section className="mt-8 grid gap-4 sm:grid-cols-3">
+        <section className="mt-8 grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Private", body: "Only administrators see your report." },
-            { title: "Anonymous option", body: "You choose what to include." },
-            { title: "Tracked reply", body: "Come back anytime with your code." },
+            { title: "Confidential Reporting", body: "We maintain confidentiality. Only the school team can see your report." },
+            { title: "Tracked reply", body: "Come back anytime with your code to view updates." },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-border bg-card/50 p-5">
               <div className="text-sm font-semibold" style={{ color: accent }}>{c.title}</div>
