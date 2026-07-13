@@ -64,12 +64,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Ummeed- You matter here. -A confidential space to speak up" },
       { property: "og:description", content: "A confidential space for students at Seth M.R. Jaipuria School to report bullying. Submissions are private and answered by school administrators." },
       { name: "twitter:description", content: "A confidential space for students at Seth M.R. Jaipuria School to report bullying. Submissions are private and answered by school administrators." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/66605392-7b52-4b88-ad9c-187dac32579f" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/66605392-7b52-4b88-ad9c-187dac32579f" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b2d8253b-04e6-4b05-92dc-fbde9f996267" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b2d8253b-04e6-4b05-92dc-fbde9f996267" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
     scripts: [
       {
