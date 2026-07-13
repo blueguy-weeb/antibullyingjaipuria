@@ -66,8 +66,10 @@ function AuthPage() {
 
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div>
-              <Label>Username</Label>
+              <Label htmlFor="admin-username">Username</Label>
               <Input
+                id="admin-username"
+                name="username"
                 autoComplete="username"
                 required
                 value={username}
@@ -76,8 +78,10 @@ function AuthPage() {
               />
             </div>
             <div>
-              <Label>Password</Label>
+              <Label htmlFor="admin-password">Password</Label>
               <Input
+                id="admin-password"
+                name="password"
                 type="password"
                 autoComplete="current-password"
                 required
