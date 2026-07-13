@@ -171,10 +171,10 @@ function ReportPage() {
   );
 }
 
-function Field({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
+function Field({ id, label, required, hint, children }: { id?: string; label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-sm font-medium">
+      <Label htmlFor={id} className="text-sm font-medium">
         {label} {required && <span className="text-destructive">*</span>}
       </Label>
       {children}
