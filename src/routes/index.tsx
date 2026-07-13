@@ -113,7 +113,7 @@ function Index() {
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground px-6">
         <p className="max-w-xl mx-auto">
-          A safe place to report your problems to school. We hope the future includes less bullying cases and better environment for our community
+          Through awareness, conscious efforts, and compassion, we’re building a kinder school community for everyone.
         </p>
       </footer>
     </div>
