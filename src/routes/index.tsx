@@ -111,6 +111,9 @@ function Index() {
                 className="mt-4 flex flex-col gap-2 sm:flex-row"
               >
                 <Input
+                  id="tracking-code"
+                  name="tracking-code"
+                  aria-label="Report tracking code"
                   value={code}
                   onChange={(e) => setCode(e.target.value.toUpperCase())}
                   placeholder="E.G. A1B2C3D4E5"
