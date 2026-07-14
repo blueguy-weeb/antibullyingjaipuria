@@ -19,8 +19,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Bullying Prevention Online Help Desk — Seth M.R. Jaipuria School" },
       { property: "og:description", content: "If you’re going through something, you’re not alone. Seth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying." },
       { property: "og:url", content: "https://digitalcampaign.lovable.app/" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b2d8253b-04e6-4b05-92dc-fbde9f996267" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b2d8253b-04e6-4b05-92dc-fbde9f996267" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/ltGVLVu03jMaoxJdRIuHEYh5nXR2/social-images/social-1784029900230-1000042265.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/ltGVLVu03jMaoxJdRIuHEYh5nXR2/social-images/social-1784029900230-1000042265.webp" },
     ],
     links: [{ rel: "canonical", href: "https://digitalcampaign.lovable.app/" }],
     scripts: [
