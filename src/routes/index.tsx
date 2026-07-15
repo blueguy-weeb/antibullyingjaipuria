@@ -162,7 +162,7 @@ function Index() {
               title: "Confidential Reporting",
               body: "We maintain confidentiality. Only the school team can see your report.",
             },
-            { title: "Built By", body: "Built through the joint efforts of Digital Campaign club and Arjun Mishra" },
+            { title: "Tracked reply", body: "Come back anytime with your code to view updates." },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-border bg-card/50 p-5">
               <div className="text-sm font-semibold" style={{ color: ACCENT }}>
