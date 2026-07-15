@@ -6,24 +6,43 @@ import { ShieldCheck, FileText, Search, Lock } from "lucide-react";
 
 const PRIMARY = "#2563eb";
 const ACCENT = "#0f172a";
-const SITE_TITLE = "Bullying Prevention Online Help Desk";
+const SITE_TITLE = "Umeed- You matter here";
 const SITE_DESCRIPTION =
-  "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you.";
+  "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Bullying Prevention Online Help Desk" },
-      { name: "description", content: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you." },
-      { property: "og:title", content: "Bullying Prevention Online Help Desk" },
-      { property: "og:description", content: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you." },
+      { title: "Umeed- You matter here" },
+      {
+        name: "description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
+      { property: "og:title", content: "Umeed- You matter here" },
+      {
+        property: "og:description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
       { property: "og:url", content: "https://digitalcampaign.lovable.app/" },
-      { property: "og:image", content: "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png" },
+      {
+        property: "og:image",
+        content:
+          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+      },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Bullying Prevention Online Help Desk — Seth M.R. Jaipuria School, Digital Campaign Club" },
-      { name: "twitter:image", content: "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png" },
+      {
+        property: "og:image:alt",
+        content: "Umeed- You matter here — Seth M.R. Jaipuria School, Digital Campaign Club",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+      },
     ],
     links: [{ rel: "canonical", href: "https://digitalcampaign.lovable.app/" }],
     scripts: [
@@ -32,9 +51,10 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Bullying Prevention Online Help Desk — Seth M.R. Jaipuria School",
+          name: "Umeed- You matter here — Seth M.R. Jaipuria School",
           url: "https://digitalcampaign.lovable.app/",
-          description: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you.",
+          description:
+            "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
           publisher: {
             "@type": "EducationalOrganization",
             name: "Seth M.R. Jaipuria School",
@@ -68,7 +88,10 @@ function Index() {
       {/* Hero */}
       <main className="mx-auto max-w-3xl px-6 pb-24 pt-10 md:pt-20">
         <div className="text-center">
-          <div className="mb-6 inline-flex rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${PRIMARY}15`, color: PRIMARY }}>
+          <div
+            className="mb-6 inline-flex rounded-full px-3 py-1 text-xs font-medium"
+            style={{ backgroundColor: `${PRIMARY}15`, color: PRIMARY }}
+          >
             Safe. Private. Heard.
           </div>
           <h1 className="text-4xl font-bold tracking-tight md:text-6xl" style={{ color: ACCENT }}>
@@ -79,7 +102,12 @@ function Index() {
           </p>
 
           <div className="mt-10">
-            <Button asChild size="lg" className="h-14 rounded-full px-8 text-base font-semibold shadow-lg transition hover:scale-[1.02]" style={{ backgroundColor: PRIMARY, color: "white" }}>
+            <Button
+              asChild
+              size="lg"
+              className="h-14 rounded-full px-8 text-base font-semibold shadow-lg transition hover:scale-[1.02]"
+              style={{ backgroundColor: PRIMARY, color: "white" }}
+            >
               <Link to="/report">
                 <FileText className="mr-2 h-5 w-5" />
                 Report an Incident
@@ -95,7 +123,9 @@ function Index() {
               <Search className="h-5 w-5" style={{ color: PRIMARY }} />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold" style={{ color: ACCENT }}>Check for updates</h2>
+              <h2 className="text-lg font-semibold" style={{ color: ACCENT }}>
+                Check for updates
+              </h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Enter your code below to view replies from the school team.
               </p>
@@ -128,11 +158,16 @@ function Index() {
         {/* Info cards */}
         <section className="mt-8 grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Confidential Reporting", body: "We maintain confidentiality. Only the school team can see your report." },
+            {
+              title: "Confidential Reporting",
+              body: "We maintain confidentiality. Only the school team can see your report.",
+            },
             { title: "Tracked reply", body: "Come back anytime with your code to view updates." },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-border bg-card/50 p-5">
-              <div className="text-sm font-semibold" style={{ color: ACCENT }}>{c.title}</div>
+              <div className="text-sm font-semibold" style={{ color: ACCENT }}>
+                {c.title}
+              </div>
               <div className="mt-1 text-sm text-muted-foreground">{c.body}</div>
             </div>
           ))}
