@@ -1,13 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -20,7 +13,10 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <p className="mt-4 text-muted-foreground">This page doesn't exist.</p>
-        <Link to="/" className="mt-6 inline-flex rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <Link
+          to="/"
+          className="mt-6 inline-flex rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
           Go home
         </Link>
       </div>
@@ -40,7 +36,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold">Something went wrong</h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <button
-          onClick={() => { router.invalidate(); reset(); }}
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
           className="mt-6 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
           Try again
@@ -55,20 +54,43 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "UMEED- A SAFE PLACE TO TALK" },
-      { name: "description", content: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you." },
+      { title: "Umeed- You matter here" },
+      {
+        name: "description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
       { property: "og:site_name", content: "Seth M.R. Jaipuria School — Digital Campaign Club" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "UMEED- A SAFE PLACE TO TALK" },
-      { name: "twitter:title", content: "UMEED- A SAFE PLACE TO TALK" },
-      { property: "og:description", content: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you." },
-      { name: "twitter:description", content: "If you’re going through something, you’re not alone.\n\nSeth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.\n\nRest assured, we’re here to listen and support you." },
-      { property: "og:image", content: "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png" },
+      { property: "og:title", content: "Umeed- You matter here" },
+      { name: "twitter:title", content: "Umeed- You matter here" },
+      {
+        property: "og:description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+      },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "UMEED- A SAFE PLACE TO TALK — Seth M.R. Jaipuria School, Digital Campaign Club" },
-      { name: "twitter:image", content: "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png" },
+      {
+        property: "og:image:alt",
+        content: "Umeed- You matter here — Seth M.R. Jaipuria School, Digital Campaign Club",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -82,7 +104,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "Seth M.R. Jaipuria School — Digital Campaign Club",
           url: "https://antibullyingjaipuria.vercel.app/",
-          description: "UMEED- A SAFE PLACE TO TALK",
+          description: "Umeed- You matter here",
         }),
       },
     ],
@@ -96,9 +118,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
+  );
+}
+
+function ThemeToggle() {
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "light";
+    return (window.localStorage.getItem("theme") as "light" | "dark" | null) ?? "light";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", theme === "dark");
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
+      className="rounded-full border border-border bg-background/80 px-3 py-2 text-sm text-foreground shadow-sm transition hover:opacity-90"
+      aria-label="Toggle dark mode"
+    >
+      {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+    </button>
   );
 }
 
@@ -150,8 +201,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <Toaster richColors position="top-center" />
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="fixed right-4 top-4 z-50">
+          <ThemeToggle />
+        </div>
+        <Outlet />
+        <Toaster richColors position="top-center" />
+      </div>
     </QueryClientProvider>
   );
 }
