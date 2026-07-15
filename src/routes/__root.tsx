@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:image",
         content:
-          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3b9ae876-24ac-4e9c-afcf-85a16aba8186",
       },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:image",
         content:
-          "https://antibullyingjaipuria.lovable.app/__l5e/assets-v1/6c1ca2e2-20f6-4a20-9a3f-4b04f2d54fe0/og-home.png",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3b9ae876-24ac-4e9c-afcf-85a16aba8186",
       },
     ],
     links: [
