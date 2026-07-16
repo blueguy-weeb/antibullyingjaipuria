@@ -83,10 +83,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       {
-        property: "og:image:alt",
-        content: "Umeed- You matter here — Seth M.R. Jaipuria School, Digital Campaign Club",
-      },
-      {
         name: "twitter:image",
         content:
           "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3b9ae876-24ac-4e9c-afcf-85a16aba8186",
