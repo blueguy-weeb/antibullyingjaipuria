@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ShieldCheck, FileText, Search, Lock } from "lucide-react";
 
-const SITE_TITLE = "Umeed - You matter here.";
-const SITE_DESCRIPTION = `A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.`;
+const SITE_TITLE = "Bullying Prevention Online Help Desk";
+const SITE_DESCRIPTION = `If you’re going through something, you’re not alone.  
+
+Seth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.  
+
+Rest assured, we’re here to listen and support you.`;
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -13,8 +17,12 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: SITE_TITLE },
       { name: "description", content: SITE_DESCRIPTION },
-      { property: "og:title", content: SITE_TITLE },
-      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:title", content: "Umeed - You matter here." },
+      {
+        property: "og:description",
+        content:
+          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
+      },
       { property: "og:url", content: "https://digitalcampaign.lovable.app/" },
     ],
     links: [{ rel: "canonical", href: "https://digitalcampaign.lovable.app/" }],
