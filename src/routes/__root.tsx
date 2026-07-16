@@ -78,14 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:image",
         content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784201213504-Screenshot_2026-07-16_165332.webp",
       },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       {
         name: "twitter:image",
         content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784201213504-Screenshot_2026-07-16_165332.webp",
       },
     ],
     links: [
