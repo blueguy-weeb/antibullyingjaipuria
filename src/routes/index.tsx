@@ -4,64 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ShieldCheck, FileText, Search, Lock } from "lucide-react";
 
-const PRIMARY = "#2563eb";
-const ACCENT = "#0f172a";
-const SITE_TITLE = "Umeed- You matter here";
-const SITE_DESCRIPTION =
-  "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.";
+const SITE_TITLE = "Bullying Prevention Online Help Desk";
+const SITE_DESCRIPTION = `If you're going through something, you're not alone.
+
+Seth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.
+
+Rest assured, we're here to listen and support you.`;
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Umeed- You matter here" },
-      {
-        name: "description",
-        content:
-          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
-      },
-      { property: "og:title", content: "Umeed- You matter here" },
-      {
-        property: "og:description",
-        content:
-          "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
-      },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESCRIPTION },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:url", content: "https://digitalcampaign.lovable.app/" },
-      {
-        property: "og:image",
-        content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
-      },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      {
-        property: "og:image:alt",
-        content: "Umeed- You matter here — Seth M.R. Jaipuria School, Digital Campaign Club",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
-      },
     ],
     links: [{ rel: "canonical", href: "https://digitalcampaign.lovable.app/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "Umeed- You matter here — Seth M.R. Jaipuria School",
-          url: "https://digitalcampaign.lovable.app/",
-          description:
-            "A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.",
-          publisher: {
-            "@type": "EducationalOrganization",
-            name: "Seth M.R. Jaipuria School",
-          },
-        }),
-      },
-    ],
   }),
 });
 
@@ -69,7 +29,7 @@ function Index() {
   const [code, setCode] = useState("");
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-4 md:px-10">
         <Link
@@ -80,7 +40,7 @@ function Index() {
           Admin Login
         </Link>
         <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-          <ShieldCheck className="h-4 w-4" style={{ color: PRIMARY }} />
+          <ShieldCheck className="h-4 w-4 text-primary" />
           Confidential
         </div>
       </header>
@@ -88,13 +48,10 @@ function Index() {
       {/* Hero */}
       <main className="mx-auto max-w-3xl px-6 pb-24 pt-10 md:pt-20">
         <div className="text-center">
-          <div
-            className="mb-6 inline-flex rounded-full px-3 py-1 text-xs font-medium"
-            style={{ backgroundColor: `${PRIMARY}15`, color: PRIMARY }}
-          >
+          <div className="mb-6 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
             Safe. Private. Heard.
           </div>
-          <h1 className="text-4xl font-bold tracking-tight md:text-6xl" style={{ color: ACCENT }}>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-6xl">
             {SITE_TITLE}
           </h1>
           <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -105,8 +62,7 @@ function Index() {
             <Button
               asChild
               size="lg"
-              className="h-14 rounded-full px-8 text-base font-semibold shadow-lg transition hover:scale-[1.02]"
-              style={{ backgroundColor: PRIMARY, color: "white" }}
+              className="h-14 rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg transition hover:scale-[1.02] hover:bg-primary/90"
             >
               <Link to="/report">
                 <FileText className="mr-2 h-5 w-5" />
@@ -119,11 +75,11 @@ function Index() {
         {/* Reply lookup */}
         <section className="mt-20 rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
           <div className="flex items-start gap-3">
-            <div className="rounded-full p-2" style={{ backgroundColor: `${PRIMARY}15` }}>
-              <Search className="h-5 w-5" style={{ color: PRIMARY }} />
+            <div className="rounded-full bg-primary/10 p-2">
+              <Search className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold" style={{ color: ACCENT }}>
+              <h2 className="text-lg font-semibold text-card-foreground">
                 Check for updates
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -147,9 +103,7 @@ function Index() {
                   className="font-mono uppercase tracking-wider"
                   maxLength={20}
                 />
-                <Button type="submit" style={{ backgroundColor: ACCENT, color: "white" }}>
-                  View reply
-                </Button>
+                <Button type="submit">View reply</Button>
               </form>
             </div>
           </div>
@@ -165,18 +119,16 @@ function Index() {
             { title: "Tracked reply", body: "Come back anytime with your code to view updates." },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-border bg-card/50 p-5">
-              <div className="text-sm font-semibold" style={{ color: ACCENT }}>
-                {c.title}
-              </div>
+              <div className="text-sm font-semibold text-card-foreground">{c.title}</div>
               <div className="mt-1 text-sm text-muted-foreground">{c.body}</div>
             </div>
           ))}
         </section>
       </main>
 
-      <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground px-6">
-        <p className="max-w-xl mx-auto">
-          Through awareness, conscious efforts, and compassion, we’re building a kinder school community for everyone.
+      <footer className="border-t border-border px-6 py-6 text-center text-xs text-muted-foreground">
+        <p className="mx-auto max-w-xl">
+          Through awareness, conscious efforts, and compassion, we're building a kinder school community for everyone.
         </p>
       </footer>
     </div>
