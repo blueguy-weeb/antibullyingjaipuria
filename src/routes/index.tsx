@@ -4,12 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ShieldCheck, FileText, Search, Lock } from "lucide-react";
 
-const SITE_TITLE = "Bullying Prevention Online Help Desk";
-const SITE_DESCRIPTION = `If you're going through something, you're not alone.
-
-Seth M.R. Jaipuria School, Digital Campaign Club, brings you a safe, confidential place to report bullying.
-
-Rest assured, we're here to listen and support you.`;
+const SITE_TITLE = "Umeed - You matter here.";
+const SITE_DESCRIPTION = `A confidential space to speak up about bullying. When we are conscious of each other, we build a kinder community.`;
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -51,9 +47,7 @@ function Index() {
           <div className="mb-6 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
             Safe. Private. Heard.
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-            {SITE_TITLE}
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-6xl">{SITE_TITLE}</h1>
           <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-base leading-relaxed text-muted-foreground md:text-lg">
             {SITE_DESCRIPTION}
           </p>
@@ -79,9 +73,7 @@ function Index() {
               <Search className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-card-foreground">
-                Check for updates
-              </h2>
+              <h2 className="text-lg font-semibold text-card-foreground">Check for updates</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Enter your code below to view replies from the school team.
               </p>
