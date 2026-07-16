@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:image",
         content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3b9ae876-24ac-4e9c-afcf-85a16aba8186",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
       },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
       {
         name: "twitter:image",
         content:
-          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/3b9ae876-24ac-4e9c-afcf-85a16aba8186",
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/LGU0FImDDMQhsJgVyIL2my9Mpo73/social-images/social-1784198302582-3b9ae876-24ac-4e9c-afcf-85a16aba8186_(1).webp",
       },
     ],
     links: [{ rel: "canonical", href: "https://digitalcampaign.lovable.app/" }],
