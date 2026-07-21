@@ -81,18 +81,20 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body.no-select {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
   }
-  input, textarea, [contenteditable="true"] {
+  body.no-select input, body.no-select textarea, body.no-select [contenteditable="true"] {
     -webkit-user-select: text;
     user-select: text;
   }
-  img {
+  body.no-select img {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     pointer-events: auto;
