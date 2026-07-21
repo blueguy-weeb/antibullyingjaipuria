@@ -157,6 +157,8 @@ function ThemeToggle() {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
@@ -167,13 +169,40 @@ function RootComponent() {
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
 
+  // Track admin session (external reports DB) — deterrents are admin-only
   useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { reportsDb } = await import("@/lib/reports-client");
+      const { data } = await reportsDb.auth.getSession();
+      if (!cancelled) setIsAdmin(!!data.session);
+      const { data: sub } = reportsDb.auth.onAuthStateChange((_evt, session) => {
+        setIsAdmin(!!session);
+      });
+      if (cancelled) sub.subscription.unsubscribe();
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Admin-only deterrents: block right-click, drag, copy/paste/cut, common
+  // save/print/view-source shortcuts, and blur on focus loss. Public visitors
+  // (not signed in) get normal browser behavior.
+  useEffect(() => {
+    if (!isAdmin) return;
     const prevent = (e: Event) => e.preventDefault();
     document.addEventListener("contextmenu", prevent);
     document.addEventListener("dragstart", prevent);
+    document.addEventListener("copy", prevent);
+    document.addEventListener("paste", prevent);
+    document.addEventListener("cut", prevent);
+    document.body.classList.add("no-select");
     const onKey = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if ((e.ctrlKey || e.metaKey) && (k === "s" || k === "p" || k === "u")) e.preventDefault();
+      if ((e.ctrlKey || e.metaKey) && (k === "s" || k === "p" || k === "u" || k === "c" || k === "x" || k === "v")) {
+        e.preventDefault();
+      }
       if (k === "printscreen") {
         navigator.clipboard?.writeText("").catch(() => {});
         document.body.classList.add("privacy-blur");
@@ -193,12 +222,17 @@ function RootComponent() {
     return () => {
       document.removeEventListener("contextmenu", prevent);
       document.removeEventListener("dragstart", prevent);
+      document.removeEventListener("copy", prevent);
+      document.removeEventListener("paste", prevent);
+      document.removeEventListener("cut", prevent);
       document.removeEventListener("keydown", onKey);
       window.removeEventListener("blur", onBlur);
       window.removeEventListener("focus", onFocus);
       document.removeEventListener("visibilitychange", onVis);
+      document.body.classList.remove("no-select");
+      document.body.classList.remove("privacy-blur");
     };
-  }, []);
+  }, [isAdmin]);
 
   return (
     <QueryClientProvider client={queryClient}>
