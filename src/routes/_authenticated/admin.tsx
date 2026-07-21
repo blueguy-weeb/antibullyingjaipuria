@@ -16,22 +16,12 @@ import {
 } from "@/components/ui/dialog";
 import { reportsDb } from "@/lib/reports-client";
 import { toast } from "sonner";
-import {
-  LogOut,
-  Trash2,
-  RefreshCw,
-  MessageSquare,
-  Send,
-  X,
-  Download,
-  KeyRound,
-} from "lucide-react";
+import { LogOut, Trash2, RefreshCw, MessageSquare, Send, X, Download, KeyRound } from "lucide-react";
 
 // ============================================================
-// TODO(admin): Replace this placeholder with your real verification code.
 // This code is required before an admin can change their password.
 // Keep it secret; anyone with this code can reset the admin password.
-const ADMIN_PW_CHANGE_CODE = "CHANGE_ME";
+const ADMIN_PW_CHANGE_CODE = "arjunisdabest";
 // ============================================================
 
 type Report = {
@@ -77,10 +67,7 @@ function AdminPage() {
 
   async function refresh() {
     setLoading(true);
-    const { data, error } = await reportsDb
-      .from("reports")
-      .select("*")
-      .order("created_at", { ascending: false });
+    const { data, error } = await reportsDb.from("reports").select("*").order("created_at", { ascending: false });
     if (error) toast.error(error.message);
     setReports((data ?? []) as Report[]);
     setLoading(false);
@@ -204,22 +191,35 @@ function AdminPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => exportCsv(pending, "pending")}>
-              <Download className="mr-2 h-4 w-4" />Export Pending
+              <Download className="mr-2 h-4 w-4" />
+              Export Pending
             </Button>
             <Button variant="outline" size="sm" onClick={() => exportCsv(replied, "replied")}>
-              <Download className="mr-2 h-4 w-4" />Export Replied
+              <Download className="mr-2 h-4 w-4" />
+              Export Replied
             </Button>
             <Button variant="outline" size="sm" onClick={() => exportCsv(reports, "all")}>
-              <Download className="mr-2 h-4 w-4" />Export All
+              <Download className="mr-2 h-4 w-4" />
+              Export All
             </Button>
             <Button variant="ghost" size="sm" onClick={() => setPwOpen(true)}>
-              <KeyRound className="mr-2 h-4 w-4" />Change Password
+              <KeyRound className="mr-2 h-4 w-4" />
+              Change Password
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => { refresh(); refreshLogs(); }}>
-              <RefreshCw className="mr-2 h-4 w-4" />Refresh
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                refresh();
+                refreshLogs();
+              }}
+            >
+              <RefreshCw className="mr-2 h-4 w-4" />
+              Refresh
             </Button>
             <Button variant="ghost" size="sm" onClick={signOut}>
-              <LogOut className="mr-2 h-4 w-4" />Sign out
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
             </Button>
           </div>
         </div>
@@ -239,27 +239,43 @@ function AdminPage() {
             <TabsContent value="pending" className="mt-6 space-y-4">
               {pending.length === 0 ? (
                 <EmptyState label="No pending reports." />
-              ) : pending.map((r) => (
-                <ReportCard
-                  key={r.id} r={r}
-                  replyingId={replyingId} replyText={replyText} savingReply={savingReply}
-                  setReplyText={setReplyText} openReply={openReply} cancelReply={cancelReply}
-                  saveReply={saveReply} remove={remove}
-                />
-              ))}
+              ) : (
+                pending.map((r) => (
+                  <ReportCard
+                    key={r.id}
+                    r={r}
+                    replyingId={replyingId}
+                    replyText={replyText}
+                    savingReply={savingReply}
+                    setReplyText={setReplyText}
+                    openReply={openReply}
+                    cancelReply={cancelReply}
+                    saveReply={saveReply}
+                    remove={remove}
+                  />
+                ))
+              )}
             </TabsContent>
 
             <TabsContent value="replied" className="mt-6 space-y-4">
               {replied.length === 0 ? (
                 <EmptyState label="No replied reports yet." />
-              ) : replied.map((r) => (
-                <ReportCard
-                  key={r.id} r={r}
-                  replyingId={replyingId} replyText={replyText} savingReply={savingReply}
-                  setReplyText={setReplyText} openReply={openReply} cancelReply={cancelReply}
-                  saveReply={saveReply} remove={remove}
-                />
-              ))}
+              ) : (
+                replied.map((r) => (
+                  <ReportCard
+                    key={r.id}
+                    r={r}
+                    replyingId={replyingId}
+                    replyText={replyText}
+                    savingReply={savingReply}
+                    setReplyText={setReplyText}
+                    openReply={openReply}
+                    cancelReply={cancelReply}
+                    saveReply={saveReply}
+                    remove={remove}
+                  />
+                ))
+              )}
             </TabsContent>
 
             <TabsContent value="logs" className="mt-6">
@@ -276,9 +292,7 @@ function AdminPage() {
 
 function EmptyState({ label }: { label: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-      {label}
-    </div>
+    <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">{label}</div>
   );
 }
 
@@ -297,25 +311,17 @@ function LoginLogList({ logs, loading }: { logs: LoginLog[]; loading: boolean })
           <div
             key={l.id}
             className={`flex flex-wrap items-start justify-between gap-2 rounded-lg border p-3 text-sm ${
-              failed
-                ? "border-destructive/40 bg-destructive/10"
-                : "border-border bg-card"
+              failed ? "border-destructive/40 bg-destructive/10" : "border-border bg-card"
             }`}
           >
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-medium">{l.user_email ?? "(unknown)"}</span>
-                <Badge variant={failed ? "destructive" : "secondary"}>
-                  {failed ? "Failed" : "Success"}
-                </Badge>
+                <Badge variant={failed ? "destructive" : "secondary"}>{failed ? "Failed" : "Success"}</Badge>
               </div>
-              <p className="mt-1 break-all text-xs text-muted-foreground">
-                {l.user_agent ?? "no user-agent"}
-              </p>
+              <p className="mt-1 break-all text-xs text-muted-foreground">{l.user_agent ?? "no user-agent"}</p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              {new Date(l.created_at).toLocaleString()}
-            </p>
+            <p className="text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</p>
           </div>
         );
       })}
@@ -323,13 +329,7 @@ function LoginLogList({ logs, loading }: { logs: LoginLog[]; loading: boolean })
   );
 }
 
-function ChangePasswordDialog({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (v: boolean) => void;
-}) {
+function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [code, setCode] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
@@ -369,8 +369,7 @@ function ChangePasswordDialog({
         <DialogHeader>
           <DialogTitle>Change admin password</DialogTitle>
           <DialogDescription>
-            Enter the verification code, then set a new password for this admin
-            account.
+            Enter the verification code, then set a new password for this admin account.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
@@ -410,12 +409,7 @@ function ChangePasswordDialog({
             />
           </div>
           <DialogFooter>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => onOpenChange(false)}
-              disabled={busy}
-            >
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} disabled={busy}>
               Cancel
             </Button>
             <Button type="submit" disabled={busy}>
@@ -429,8 +423,15 @@ function ChangePasswordDialog({
 }
 
 function ReportCard({
-  r, replyingId, replyText, savingReply, setReplyText,
-  openReply, cancelReply, saveReply, remove,
+  r,
+  replyingId,
+  replyText,
+  savingReply,
+  setReplyText,
+  openReply,
+  cancelReply,
+  saveReply,
+  remove,
 }: {
   r: Report;
   replyingId: string | null;
@@ -452,9 +453,7 @@ function ReportCard({
           <div className="flex items-center gap-2">
             <h3 className="font-semibold">{r.student_name}</h3>
             <Badge variant="secondary">Class {r.class}</Badge>
-            <Badge variant={hasReply ? "default" : "outline"}>
-              {hasReply ? "Replied" : "Pending"}
-            </Badge>
+            <Badge variant={hasReply ? "default" : "outline"}>{hasReply ? "Replied" : "Pending"}</Badge>
           </div>
           <p className="mt-1 text-xs text-muted-foreground">
             Teacher: {r.class_teacher} · Code <code className="font-mono">{r.track_id}</code>
@@ -468,8 +467,7 @@ function ReportCard({
 
       <div className="mt-4 space-y-2 rounded-lg bg-muted p-4 text-sm">
         <div>
-          <span className="font-medium">Problem:</span>{" "}
-          <span className="whitespace-pre-wrap">{r.problem}</span>
+          <span className="font-medium">Problem:</span> <span className="whitespace-pre-wrap">{r.problem}</span>
         </div>
         {r.witness && (
           <div>
@@ -480,14 +478,10 @@ function ReportCard({
 
       {hasReply && !isReplying && (
         <div className="mt-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm">
-          <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Your reply
-          </div>
+          <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Your reply</div>
           <div className="mt-1 whitespace-pre-wrap">{r.reply}</div>
           {r.replied_at && (
-            <p className="mt-2 text-xs text-muted-foreground">
-              Sent {new Date(r.replied_at).toLocaleString()}
-            </p>
+            <p className="mt-2 text-xs text-muted-foreground">Sent {new Date(r.replied_at).toLocaleString()}</p>
           )}
         </div>
       )}
@@ -502,7 +496,8 @@ function ReportCard({
           />
           <div className="flex justify-end gap-2">
             <Button variant="ghost" size="sm" onClick={cancelReply}>
-              <X className="mr-2 h-4 w-4" />Cancel
+              <X className="mr-2 h-4 w-4" />
+              Cancel
             </Button>
             <Button size="sm" disabled={savingReply} onClick={() => saveReply(r.id)}>
               <Send className="mr-2 h-4 w-4" />
