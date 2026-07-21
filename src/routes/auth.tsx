@@ -31,11 +31,22 @@ function AuthPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    const cleanEmail = email.trim().toLowerCase();
     try {
       const { error } = await reportsDb.auth.signInWithPassword({
-        email: email.trim().toLowerCase(),
+        email: cleanEmail,
         password,
       });
+      // Log the attempt (best-effort, non-blocking failure)
+      reportsDb
+        .from("login_logs")
+        .insert({
+          user_email: cleanEmail,
+          event: error ? "sign_in_failed" : "sign_in_success",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        })
+        .then(() => {})
+        .then(undefined, () => {});
       if (error) throw error;
       toast.success("Signed in");
       navigate({ to: "/admin" });
