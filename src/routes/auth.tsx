@@ -3,9 +3,23 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { reportsDb } from "@/lib/reports-client";
 import { toast } from "sonner";
-import { ArrowLeft, Lock } from "lucide-react";
+import { ArrowLeft, Lock, KeyRound } from "lucide-react";
+
+// ============================================================
+// Same verification code as in src/routes/_authenticated/admin.tsx.
+// Anyone with this code can reset the admin password from the login screen.
+const ADMIN_PW_CHANGE_CODE = "arjunisdabest";
+// ============================================================
 
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
