@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { reportsDb } from "@/lib/reports-client";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ArrowLeft, Lock, KeyRound } from "lucide-react";
 
@@ -46,14 +46,15 @@ function AuthPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const cleanEmail = email.trim().toLowerCase();
+    const enteredLogin = email.trim().toLowerCase();
+    const cleanEmail = enteredLogin.includes("@") ? enteredLogin : `${enteredLogin}@jaipuria.local`;
     try {
-      const { error } = await reportsDb.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
         password,
       });
       // Log the attempt (best-effort, non-blocking failure)
-      reportsDb
+      supabase
         .from("login_logs")
         .insert({
           user_email: cleanEmail,
@@ -64,7 +65,7 @@ function AuthPage() {
         .then(undefined, () => {});
       if (error) throw error;
       toast.success("Signed in");
-      navigate({ to: "/admin" });
+      navigate({ to: "/admin", replace: true });
     } catch (err) {
       toast.error((err as Error).message || "Invalid credentials");
     } finally {
@@ -89,12 +90,13 @@ function AuthPage() {
 
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div>
-              <Label htmlFor="admin-email">Email</Label>
+              <Label htmlFor="admin-email">Username or email</Label>
               <Input
                 id="admin-email"
                 name="email"
-                type="email"
-                autoComplete="email"
+                type="text"
+                autoComplete="username"
+                placeholder="digital.campaign"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -160,14 +162,15 @@ function ResetPasswordDialog({
     if (pw.length < 8) return toast.error("New password must be at least 8 characters");
     if (pw !== pw2) return toast.error("Passwords do not match");
     setBusy(true);
-    const cleanEmail = mail.trim().toLowerCase();
-    const { error: sErr } = await reportsDb.auth.signInWithPassword({ email: cleanEmail, password: oldPw });
+    const enteredLogin = mail.trim().toLowerCase();
+    const cleanEmail = enteredLogin.includes("@") ? enteredLogin : `${enteredLogin}@jaipuria.local`;
+    const { error: sErr } = await supabase.auth.signInWithPassword({ email: cleanEmail, password: oldPw });
     if (sErr) {
       setBusy(false);
       return toast.error("Current password is incorrect");
     }
-    const { error: uErr } = await reportsDb.auth.updateUser({ password: pw });
-    await reportsDb.auth.signOut();
+    const { error: uErr } = await supabase.auth.updateUser({ password: pw });
+    await supabase.auth.signOut();
     setBusy(false);
     if (uErr) return toast.error(uErr.message);
     toast.success("Password updated — sign in with your new password");
@@ -193,8 +196,8 @@ function ResetPasswordDialog({
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <Label htmlFor="rp-email">Email</Label>
-            <Input id="rp-email" type="email" autoComplete="email" value={mail} onChange={(e) => setMail(e.target.value)} required />
+            <Label htmlFor="rp-email">Username or email</Label>
+            <Input id="rp-email" type="text" autoComplete="username" value={mail} onChange={(e) => setMail(e.target.value)} required />
           </div>
           <div>
             <Label htmlFor="rp-old">Current password</Label>
