@@ -21,6 +21,14 @@ import { ArrowLeft, Lock, KeyRound } from "lucide-react";
 const ADMIN_PW_CHANGE_CODE = "arjunisdabest";
 // ============================================================
 
+function adminEmail(login: string) {
+  const normalized = login.trim().toLowerCase();
+  if (normalized === "digital.campaign" || normalized === "digital.campaign@jaipuria.com") {
+    return "digital.campaign@jaipuria.local";
+  }
+  return normalized.includes("@") ? normalized : `${normalized}@jaipuria.local`;
+}
+
 export const Route = createFileRoute("/auth")({
   component: AuthPage,
   head: () => ({
@@ -46,8 +54,7 @@ function AuthPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const enteredLogin = email.trim().toLowerCase();
-    const cleanEmail = enteredLogin.includes("@") ? enteredLogin : `${enteredLogin}@jaipuria.local`;
+    const cleanEmail = adminEmail(email);
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
@@ -67,7 +74,8 @@ function AuthPage() {
       toast.success("Signed in");
       navigate({ to: "/admin", replace: true });
     } catch (err) {
-      toast.error((err as Error).message || "Invalid credentials");
+      const message = (err as Error).message;
+      toast.error(message === "Failed to fetch" ? "Login service unavailable. Please try again." : message || "Invalid credentials");
     } finally {
       setBusy(false);
     }
@@ -162,8 +170,7 @@ function ResetPasswordDialog({
     if (pw.length < 8) return toast.error("New password must be at least 8 characters");
     if (pw !== pw2) return toast.error("Passwords do not match");
     setBusy(true);
-    const enteredLogin = mail.trim().toLowerCase();
-    const cleanEmail = enteredLogin.includes("@") ? enteredLogin : `${enteredLogin}@jaipuria.local`;
+    const cleanEmail = adminEmail(mail);
     const { error: sErr } = await supabase.auth.signInWithPassword({ email: cleanEmail, password: oldPw });
     if (sErr) {
       setBusy(false);
