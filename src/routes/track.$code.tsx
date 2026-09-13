@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { reportsDb } from "@/lib/reports-client";
+import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
 
@@ -38,13 +38,20 @@ function TrackPage() {
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await reportsDb
-        .from("reports")
-        .select("track_id, student_name, class_teacher, class, problem, witness, created_at, reply, replied_at")
-        .eq("track_id", code)
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("get_incident_by_code", { _code: code });
       if (error) console.error(error);
-      setReport((data as Report | null) ?? null);
+      const incident = data?.[0];
+      setReport(incident ? {
+        track_id: incident.tracking_code,
+        student_name: incident.name,
+        class_teacher: incident.class_teacher,
+        class: incident.class_name,
+        problem: incident.problem,
+        witness: incident.witness,
+        created_at: incident.created_at,
+        reply: incident.reply,
+        replied_at: incident.replied_at,
+      } : null);
       setLoading(false);
     })();
   }, [code]);

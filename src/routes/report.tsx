@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { reportsDb, generateTrackId } from "@/lib/reports-client";
+import { supabase } from "@/integrations/supabase/client";
 import { moderateReport } from "@/lib/moderation.functions";
 import { toast } from "sonner";
 import { ArrowLeft, Send, CheckCircle2, Copy, AlertTriangle, KeyRound } from "lucide-react";
@@ -69,18 +69,17 @@ function ReportPage() {
       // fail open — never block a real report because moderation errored
     }
 
-    const track_id = generateTrackId();
-    const { error } = await reportsDb.from("reports").insert({
-      student_name: parsed.data.student_name,
-      class_teacher: parsed.data.class_teacher,
-      class: parsed.data.class,
-      problem: parsed.data.problem,
-      witness: parsed.data.witness || null,
-      track_id,
+    const { data: trackId, error } = await supabase.rpc("submit_incident", {
+      _name: parsed.data.student_name,
+      _class_teacher: parsed.data.class_teacher,
+      _class_name: parsed.data.class,
+      _problem: parsed.data.problem,
+      _witness: parsed.data.witness || undefined,
     });
     setSubmitting(false);
     if (error) { toast.error(error.message); return; }
-    setSubmitted({ code: track_id });
+    if (!trackId) { toast.error("The report could not be submitted. Please try again."); return; }
+    setSubmitted({ code: trackId });
   }
 
   if (submitted) {

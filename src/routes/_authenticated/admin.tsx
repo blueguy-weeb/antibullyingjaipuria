@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { reportsDb } from "@/lib/reports-client";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LogOut, Trash2, RefreshCw, MessageSquare, Send, X, Download, KeyRound } from "lucide-react";
 
@@ -67,15 +67,26 @@ function AdminPage() {
 
   async function refresh() {
     setLoading(true);
-    const { data, error } = await reportsDb.from("reports").select("*").order("created_at", { ascending: false });
+    const { data, error } = await supabase.from("incidents").select("*").order("created_at", { ascending: false });
     if (error) toast.error(error.message);
-    setReports((data ?? []) as Report[]);
+    setReports((data ?? []).map((incident) => ({
+      id: incident.id,
+      track_id: incident.tracking_code,
+      student_name: incident.name,
+      class_teacher: incident.class_teacher,
+      class: incident.class_name,
+      problem: incident.problem,
+      witness: incident.witness,
+      reply: incident.reply,
+      replied_at: incident.replied_at,
+      created_at: incident.created_at,
+    })));
     setLoading(false);
   }
 
   async function refreshLogs() {
     setLogsLoading(true);
-    const { data, error } = await reportsDb
+    const { data, error } = await supabase
       .from("login_logs")
       .select("*")
       .order("created_at", { ascending: false })
@@ -89,13 +100,13 @@ function AdminPage() {
   }
 
   async function signOut() {
-    await reportsDb.auth.signOut();
+    await supabase.auth.signOut();
     navigate({ to: "/auth" });
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this report permanently?")) return;
-    const { error } = await reportsDb.from("reports").delete().eq("id", id);
+    const { error } = await supabase.from("incidents").delete().eq("id", id);
     if (error) return toast.error(error.message);
     toast.success("Deleted");
     await refresh();
@@ -115,8 +126,8 @@ function AdminPage() {
     const text = replyText.trim();
     if (!text) return toast.error("Reply cannot be empty");
     setSavingReply(true);
-    const { error } = await reportsDb
-      .from("reports")
+    const { error } = await supabase
+      .from("incidents")
       .update({ reply: text, replied_at: new Date().toISOString() })
       .eq("id", id);
     setSavingReply(false);
@@ -349,7 +360,7 @@ function ChangePasswordDialog({ open, onOpenChange }: { open: boolean; onOpenCha
     if (pw.length < 8) return toast.error("Password must be at least 8 characters");
     if (pw !== pw2) return toast.error("Passwords do not match");
     setBusy(true);
-    const { error } = await reportsDb.auth.updateUser({ password: pw });
+    const { error } = await supabase.auth.updateUser({ password: pw });
     setBusy(false);
     if (error) return toast.error(error.message);
     toast.success("Password updated");

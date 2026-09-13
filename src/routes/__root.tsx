@@ -169,21 +169,13 @@ function RootComponent() {
     return () => sub.subscription.unsubscribe();
   }, [router, queryClient]);
 
-  // Track admin session (external reports DB) — deterrents are admin-only
+  // Track the authenticated admin session — deterrents are admin-only.
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { reportsDb } = await import("@/lib/reports-client");
-      const { data } = await reportsDb.auth.getSession();
-      if (!cancelled) setIsAdmin(!!data.session);
-      const { data: sub } = reportsDb.auth.onAuthStateChange((_evt, session) => {
-        setIsAdmin(!!session);
-      });
-      if (cancelled) sub.subscription.unsubscribe();
-    })();
-    return () => {
-      cancelled = true;
-    };
+    supabase.auth.getSession().then(({ data }) => setIsAdmin(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(!!session);
+    });
+    return () => sub.subscription.unsubscribe();
   }, []);
 
   // Admin-only deterrents: block right-click, drag, copy/paste/cut, common

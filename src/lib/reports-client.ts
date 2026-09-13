@@ -1,17 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 
-// External Supabase project used for reports + admin auth.
-const SUPABASE_URL = "https://cafhfyxtvahvxvdhkzqh.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_9vAAMbXpgZmrD9CLeSavdg_NOw0G7iV";
-
-export const reportsDb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    storage: typeof window !== "undefined" ? window.localStorage : undefined,
-    persistSession: true,
-    autoRefreshToken: true,
-    storageKey: "reports-db-auth",
-  },
-});
+// Keep the existing feature imports stable while using this project's
+// managed backend for reports and administrator authentication.
+export const reportsDb = supabase;
 
 export function generateTrackId(): string {
   // 10-digit numeric code
