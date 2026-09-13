@@ -59,6 +59,30 @@ export type Database = {
         }
         Relationships: []
       }
+      login_logs: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          user_agent: string | null
+          user_email: string | null
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          user_agent?: string | null
+          user_email?: string | null
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          user_agent?: string | null
+          user_email?: string | null
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           accent_color: string
